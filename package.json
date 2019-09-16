@@ -1,0 +1,78 @@
+{
+  "name": "ula-vp-controller",
+  "version": "0.1.0",
+  "description": "A plugin responding to a ChallengeRequest by returning a VerifiablePresentation",
+  "engines": {
+    "node": ">=8.15.0",
+    "npm": ">=5.6.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "compile": "./node_modules/.bin/tsc",
+    "prepublishOnly": "npm run clean && npm run compile && npm run lint && npm run test",
+    "test": "./node_modules/.bin/nyc --check-coverage --lines 80 ./node_modules/.bin/mocha \"test/**/*.test.ts\"",
+    "stryker": "./node_modules/.bin/stryker run",
+    "coverage": "./node_modules/.bin/nyc report",
+    "lint": "tslint -p ./",
+    "postinstall": ""
+  },
+  "keywords": [
+    "plugin",
+    "SSI",
+    "framework",
+    "identity",
+    "w3c",
+    "verifiable",
+    "credential",
+    "presentation",
+    "ULA",
+    "universal ledger agent",
+    "blockchain"
+  ],
+  "contributors": [
+    "Marnix van den Bent <marnix.van.den.bent@rabobank.nl>",
+    "Jarl Nieuwenhuijzen <jarl.nieuwenhuijzen@rabobank.nl>"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rabobank-blockchain/ula-vp-controller"
+  },
+  "bugs": {
+    "url": "https://github.com/rabobank-blockchain/ula-vp-controller/issues"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^1.0.0",
+    "@stryker-mutator/html-reporter": "^1.0.0",
+    "@stryker-mutator/mocha-runner": "^1.0.0",
+    "@stryker-mutator/typescript": "^1.0.0",
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/sinon": "^7.0.5",
+    "@types/sinon-chai": "^3.2.2",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.2.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "nyc": "^14.1.1",
+    "sinon": "^7.2.3",
+    "sinon-chai": "^3.3.0",
+    "source-map-support": "^0.5.10",
+    "ts-node": "^8.0.1",
+    "tslint": "^5.12.1",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "ula-vc-data-management": "^0.1.0",
+    "universal-ledger-agent": "^0.1.1",
+    "vp-toolkit": "^0.1.0",
+    "vp-toolkit-models": "^0.1.0"
+  }
+}
