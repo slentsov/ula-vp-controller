@@ -146,7 +146,7 @@ class VpController {
                 // Prepare the response, but make the VP undefined if there are no credentials found
                 const allFoundCredentials = selfAttestedVCs.concat(vcSearchResult.matching);
                 const selfAttestedVP = allFoundCredentials.length > 0 ?
-                    yield this._vpGenerator.generateVerifiablePresentation({
+                    this._vpGenerator.generateVerifiablePresentation({
                         type: ['VerifiablePresentation', 'ChallengeResponse'],
                         verifiableCredential: allFoundCredentials
                     }, selfAttestedDidInfo.concat(existingVcDidInfo), challengeRequest.correspondenceId)

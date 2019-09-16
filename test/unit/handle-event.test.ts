@@ -532,7 +532,7 @@ describe('vp controller handle event', function () {
       predicate: 'http://schema.org/givenName'
     })])
     sinon.stub(vpGenerator, 'generateVerifiablePresentation')
-      .resolves(testData.selfSignedVpWithProof)
+      .returns(testData.selfSignedVpWithProof)
     const httpServiceStub = sinon.stub(httpService, 'postRequest')
       .resolves(testData.issuerVpWithProof.toJSON())
     const verifyVpStub = sinon.stub(vpSigner, 'verifyVerifiablePresentation').returns(true)
