@@ -22,10 +22,10 @@ import { AddressHelper, VerifiableCredentialHelper, VpController } from '../../s
 import { BrowserHttpService, EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import {
   ChallengeRequest,
-  IChallengeRequest,
-  IProof,
-  IVerifiableCredential,
-  IVerifiablePresentation,
+  IChallengeRequestParams,
+  IProofParams,
+  IVerifiableCredentialParams,
+  IVerifiablePresentationParams,
   VerifiableCredential,
   VerifiablePresentation
 } from 'vp-toolkit-models'
@@ -69,7 +69,7 @@ describe('vp controller handle event', function () {
     nonce: '9f2f4712-a16f-44c2-8271-d6129de2b91f',
     signatureValue: 'signature'
   }
-  const issueAndVerifyCRParams: IChallengeRequest = {
+  const issueAndVerifyCRParams: IChallengeRequestParams = {
     correspondenceId: '3ead8ae0-2d8b-41de-a54b-2d99927e458c',
     toAttest: [{ predicate: 'http://schema.org/givenName' }],
     toVerify: [{ predicate: 'http://schema.org/familyName' }],
@@ -202,7 +202,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(acceptConsentMessage, () => {
       // Do nothing
     }).then(() => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       vpSignerVerifyStub.should.have.been.calledOnceWithExactly(expectedIssuerVp, true)
       wrongVpSignerStub.callCount.should.be.equal(0)
       done()
@@ -237,7 +237,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(acceptConsentMessage, () => {
       // Do nothing
     }).then(() => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithoutProof as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithoutProof as IVerifiablePresentationParams)
       vpSignerStub.callCount.should.be.equal(0)
       wrongVpSignerStub.should.have.been.calledOnceWithExactly(expectedIssuerVp, true)
       done()
@@ -377,7 +377,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(consentUlaMessage, (response: UlaResponse) => {
       ulaResponses.push(response)
     }).then((outcome: string) => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       ulaResponses.length.should.be.equal(2)
       ulaResponses[0].statusCode.should.be.equal(1)
       ulaResponses[0].body.should.be.deep.equal({ loading: false, success: true, failure: false })
@@ -452,7 +452,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(consentUlaMessage, () => {
       // Do nothing
     }).then(() => {
-      const deserializedVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const deserializedVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       vcHelperSaveStub.should.have.been.calledOnceWithExactly(
         testData.consentRequest.filledTemplate.challengeRequest.proof.verificationMethod,
         [testData.issuerVcWithProof.proof.nonce],
@@ -470,7 +470,7 @@ describe('vp controller handle event', function () {
       {
         // Nothing to attest
         toVerify: testData.consentRequest.filledTemplate.challengeRequest.toVerify,
-        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProof
+        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       }
     )
     // Arranging stubs and sut
@@ -514,7 +514,7 @@ describe('vp controller handle event', function () {
       {
         // Issuer has nothing to verify
         toAttest: testData.consentRequest.filledTemplate.challengeRequest.toAttest,
-        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProof
+        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       })
     testData.consentRequest.filledTemplate.challengeRequest = issuerChallengeRequest
     // Arranging stubs and sut
@@ -551,7 +551,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(ulaMessage, (response: UlaResponse) => {
       ulaResponses.push(response)
     }).then((outcome: string) => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       ulaResponses.length.should.be.equal(2)
       ulaResponses[0].statusCode.should.be.equal(1)
       ulaResponses[0].body.should.be.deep.equal({ loading: false, success: true, failure: false })
@@ -574,7 +574,7 @@ describe('vp controller handle event', function () {
     // Holder (sending a self signed VP, proving DID ownership and sending current VC's as requested by issuer)
     let holderPubAddress = '0xholderAddress'
     let holderDid = 'did:eth:' + holderPubAddress
-    let selfSignedVcWithoutProof: IVerifiableCredential = {
+    let selfSignedVcWithoutProof: IVerifiableCredentialParams = {
       type: ['VerifiableCredential', 'DidOwnership'],
       credentialSubject: {},
       '@context': ['http://schema.org/givenName'],
@@ -607,11 +607,11 @@ describe('vp controller handle event', function () {
       issuanceDate: new Date(),
       issuer: issuerDid,
       issuerName: 'Organisation'
-    } as IVerifiableCredential
+    } as IVerifiableCredentialParams
     let issuerVcWithProof = new VerifiableCredential(
       Object.assign({ proof: testProof }, issuerVcWithoutProof)
     )
-    let issuerVpWithoutProof: IVerifiablePresentation = {
+    let issuerVpWithoutProof: IVerifiablePresentationParams = {
       type: ['VerifiablePresentation'],
       verifiableCredential: [issuerVcWithProof]
     }
@@ -626,7 +626,7 @@ describe('vp controller handle event', function () {
     }
 
     // Holder (VP, requesting consent to app)
-    let selfSignedVpWithoutProof: IVerifiablePresentation = {
+    let selfSignedVpWithoutProof: IVerifiablePresentationParams = {
       type: ['VerifiablePresentation', 'ChallengeResponse'],
       verifiableCredential: [selfSignedVcWithProof.vc, issuerVcWithProof]
     }
