@@ -25,7 +25,7 @@ import {
   IChallengeRequest,
   IProof,
   IVerifiableCredential,
-  IVerifiablePresentation,
+  IVerifiablePresentationParams,
   VerifiableCredential,
   VerifiablePresentation
 } from 'vp-toolkit-models'
@@ -202,7 +202,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(acceptConsentMessage, () => {
       // Do nothing
     }).then(() => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       vpSignerVerifyStub.should.have.been.calledOnceWithExactly(expectedIssuerVp, true)
       wrongVpSignerStub.callCount.should.be.equal(0)
       done()
@@ -237,7 +237,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(acceptConsentMessage, () => {
       // Do nothing
     }).then(() => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithoutProof as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithoutProof as IVerifiablePresentationParams)
       vpSignerStub.callCount.should.be.equal(0)
       wrongVpSignerStub.should.have.been.calledOnceWithExactly(expectedIssuerVp, true)
       done()
@@ -377,7 +377,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(consentUlaMessage, (response: UlaResponse) => {
       ulaResponses.push(response)
     }).then((outcome: string) => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       ulaResponses.length.should.be.equal(2)
       ulaResponses[0].statusCode.should.be.equal(1)
       ulaResponses[0].body.should.be.deep.equal({ loading: false, success: true, failure: false })
@@ -452,7 +452,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(consentUlaMessage, () => {
       // Do nothing
     }).then(() => {
-      const deserializedVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const deserializedVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       vcHelperSaveStub.should.have.been.calledOnceWithExactly(
         testData.consentRequest.filledTemplate.challengeRequest.proof.verificationMethod,
         [testData.issuerVcWithProof.proof.nonce],
@@ -551,7 +551,7 @@ describe('vp controller handle event', function () {
     sut.handleEvent(ulaMessage, (response: UlaResponse) => {
       ulaResponses.push(response)
     }).then((outcome: string) => {
-      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentation)
+      const expectedIssuerVp = new VerifiablePresentation(testData.issuerVpWithProof.toJSON() as IVerifiablePresentationParams)
       ulaResponses.length.should.be.equal(2)
       ulaResponses[0].statusCode.should.be.equal(1)
       ulaResponses[0].body.should.be.deep.equal({ loading: false, success: true, failure: false })
@@ -611,7 +611,7 @@ describe('vp controller handle event', function () {
     let issuerVcWithProof = new VerifiableCredential(
       Object.assign({ proof: testProof }, issuerVcWithoutProof)
     )
-    let issuerVpWithoutProof: IVerifiablePresentation = {
+    let issuerVpWithoutProof: IVerifiablePresentationParams = {
       type: ['VerifiablePresentation'],
       verifiableCredential: [issuerVcWithProof]
     }
@@ -626,7 +626,7 @@ describe('vp controller handle event', function () {
     }
 
     // Holder (VP, requesting consent to app)
-    let selfSignedVpWithoutProof: IVerifiablePresentation = {
+    let selfSignedVpWithoutProof: IVerifiablePresentationParams = {
       type: ['VerifiablePresentation', 'ChallengeResponse'],
       verifiableCredential: [selfSignedVcWithProof.vc, issuerVcWithProof]
     }
