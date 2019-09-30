@@ -22,9 +22,9 @@ import { AddressHelper, VerifiableCredentialHelper, VpController } from '../../s
 import { BrowserHttpService, EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import {
   ChallengeRequest,
-  IChallengeRequest,
-  IProof,
-  IVerifiableCredential,
+  IChallengeRequestParams,
+  IProofParams,
+  IVerifiableCredentialParams,
   IVerifiablePresentationParams,
   VerifiableCredential,
   VerifiablePresentation
@@ -69,7 +69,7 @@ describe('vp controller handle event', function () {
     nonce: '9f2f4712-a16f-44c2-8271-d6129de2b91f',
     signatureValue: 'signature'
   }
-  const issueAndVerifyCRParams: IChallengeRequest = {
+  const issueAndVerifyCRParams: IChallengeRequestParams = {
     correspondenceId: '3ead8ae0-2d8b-41de-a54b-2d99927e458c',
     toAttest: [{ predicate: 'http://schema.org/givenName' }],
     toVerify: [{ predicate: 'http://schema.org/familyName' }],
@@ -470,7 +470,7 @@ describe('vp controller handle event', function () {
       {
         // Nothing to attest
         toVerify: testData.consentRequest.filledTemplate.challengeRequest.toVerify,
-        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProof
+        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       }
     )
     // Arranging stubs and sut
@@ -514,7 +514,7 @@ describe('vp controller handle event', function () {
       {
         // Issuer has nothing to verify
         toAttest: testData.consentRequest.filledTemplate.challengeRequest.toAttest,
-        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProof
+        proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       })
     testData.consentRequest.filledTemplate.challengeRequest = issuerChallengeRequest
     // Arranging stubs and sut
@@ -574,7 +574,7 @@ describe('vp controller handle event', function () {
     // Holder (sending a self signed VP, proving DID ownership and sending current VC's as requested by issuer)
     let holderPubAddress = '0xholderAddress'
     let holderDid = 'did:eth:' + holderPubAddress
-    let selfSignedVcWithoutProof: IVerifiableCredential = {
+    let selfSignedVcWithoutProof: IVerifiableCredentialParams = {
       type: ['VerifiableCredential', 'DidOwnership'],
       credentialSubject: {},
       '@context': ['http://schema.org/givenName'],
@@ -607,7 +607,7 @@ describe('vp controller handle event', function () {
       issuanceDate: new Date(),
       issuer: issuerDid,
       issuerName: 'Organisation'
-    } as IVerifiableCredential
+    } as IVerifiableCredentialParams
     let issuerVcWithProof = new VerifiableCredential(
       Object.assign({ proof: testProof }, issuerVcWithoutProof)
     )
