@@ -85,6 +85,7 @@ describe('verifiable credential helper', function () {
     const sut = new VerifiableCredentialHelper(vcGenerator, addressHelper)
     const challengeRequest = new ChallengeRequest({
       toVerify: [{ predicate: predicate }, { predicate: predicate2 }],
+      postEndpoint: 'https://postendpoint.com/something',
       proof: testProof
     })
 
@@ -162,6 +163,7 @@ describe('verifiable credential helper', function () {
         { predicate: predicate4, allowedIssuers: ['did:eth:someBankIssuer'] },
         { predicate: predicate5 }
       ],
+      postEndpoint: 'https://something.com/something',
       proof: testProof
     })
 
@@ -250,6 +252,7 @@ describe('verifiable credential helper', function () {
         { predicate: predicate }, // address
         { predicate: predicate2, allowedIssuers: ['did:eth:otherIssuer'] }
       ],
+      postEndpoint: 'https://endpoint.com/something',
       proof: testProof
     })
 
@@ -274,6 +277,7 @@ describe('verifiable credential helper', function () {
     const sut = new VerifiableCredentialHelper(vcGenerator, addressHelper)
     const challengeRequest = new ChallengeRequest({
       toAttest: [{ predicate: predicate }, { predicate: predicate2 }],
+      postEndpoint: 'https://endpoint.com/something',
       proof: testProof
     })
 
@@ -303,6 +307,7 @@ describe('verifiable credential helper', function () {
     const sut = new VerifiableCredentialHelper(vcGenerator, addressHelper)
     const challengeRequest = new ChallengeRequest({
       toAttest: [{ predicate: predicate }],
+      postEndpoint: 'https://endpoint.com/something',
       proof: testProof
     })
 

@@ -73,6 +73,7 @@ describe('vp controller handle event', function () {
     correspondenceId: '3ead8ae0-2d8b-41de-a54b-2d99927e458c',
     toAttest: [{ predicate: 'http://schema.org/givenName' }],
     toVerify: [{ predicate: 'http://schema.org/familyName' }],
+    postEndpoint: 'https://postendpoint.com/something',
     proof: testProof
   }
   const ulaMessage = new Message(
@@ -469,6 +470,7 @@ describe('vp controller handle event', function () {
     testData.consentRequest.filledTemplate.challengeRequest = new ChallengeRequest(
       {
         // Nothing to attest
+        postEndpoint: 'https://postendpoint.com/something',
         toVerify: testData.consentRequest.filledTemplate.challengeRequest.toVerify,
         proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       }
@@ -514,6 +516,7 @@ describe('vp controller handle event', function () {
       {
         // Issuer has nothing to verify
         toAttest: testData.consentRequest.filledTemplate.challengeRequest.toAttest,
+        postEndpoint: 'https://postendpoint.com/something',
         proof: testData.consentRequest.filledTemplate.challengeRequest.proof.toJSON() as IProofParams
       })
     testData.consentRequest.filledTemplate.challengeRequest = issuerChallengeRequest
