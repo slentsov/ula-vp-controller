@@ -73,6 +73,6 @@
     "ula-vc-data-management": "^0.1.0",
     "universal-ledger-agent": "^0.1.1",
     "vp-toolkit": "^0.1.0",
-    "vp-toolkit-models": "github:rabobank-blockchain/vp-toolkit-models#develop"
+    "vp-toolkit-models": "github:rabobank-blockchain/vp-toolkit-models#5dd09eea5109dad2beaac29af8c0a5adda282bdd"
   }
 }
